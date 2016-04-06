@@ -16,10 +16,12 @@ public class Clovek {
     private final String SOUBOR = "adresar.txt";
     private String jmeno;
     private String prijmeni;
+    private boolean muz;
 
     public Clovek() {
         jmeno = "";
         prijmeni = "";
+        muz = true;
         nactiSeZDisku();
     }
     
@@ -29,6 +31,11 @@ public class Clovek {
             vystup = new BufferedWriter(new FileWriter(SOUBOR));
             vystup.write(this.jmeno+"\r\n");
             vystup.write(this.prijmeni+"\r\n");
+            if (muz) {
+                vystup.write("muž\r\n");
+            } else {
+                vystup.write("žena\r\n");
+            }
             vystup.close();
         } catch (IOException ex) {
             Logger.getLogger(Clovek.class.getName()).log(Level.SEVERE, null, ex);
@@ -43,8 +50,14 @@ public class Clovek {
             while ((radek = vstup.readLine()) != null) {
                 if (jmeno.isEmpty()) {
                     jmeno = radek;
-                } else {
+                } else if (prijmeni.isEmpty()) {
                     prijmeni = radek;
+                } else {
+                    if (radek.equals("muž")) {
+                        this.muz = true;
+                    } else {
+                        this.muz = false;
+                    }
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -68,6 +81,14 @@ public class Clovek {
 
     public void setPrijmeni(String prijmeni) {
         this.prijmeni = prijmeni;
+    }
+
+    public boolean isMuz() {
+        return muz;
+    }
+
+    public void setMuz(boolean muz) {
+        this.muz = muz;
     }
     
 }
